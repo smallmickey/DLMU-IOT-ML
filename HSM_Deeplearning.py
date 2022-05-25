@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+
 
 
 from tensorflow import keras
@@ -14,7 +14,7 @@ import math
 import random
 
 
-# In[2]:
+
 
 
 # -----------------------------
@@ -23,14 +23,14 @@ import random
 data=scio.loadmat('notMNIST_small.mat') #使用scio 包中的loadmat读取数据
 
 
-# In[3]:
+
 
 
 images=data['images']#读取后为字典 读取其中训练数据部分
 labels=data['labels']#读取数据集的标签
 
 
-# In[4]:
+
 
 
 test_split=0.2#训练集和测试集的划分 8/2划分
@@ -40,7 +40,7 @@ train_num=num_images-test_num#训练集图片数量 便于后续取出
 image=list()#初始化列表 后续存储读出来的图片
 
 
-# In[5]:
+
 
 
 for i in range(num_images): #数据集格式转化 转化为我们预处理要用的 num_images*28*28 按照自己的预处理规则进行预处理
@@ -48,7 +48,7 @@ for i in range(num_images): #数据集格式转化 转化为我们预处理要�
 images=np.array(image)#转化为numpy类型
 
 
-# In[6]:
+
 
 
 img_ran=random.sample(range(0,num_images), 5)#随机取5个图片并显示其标签
@@ -79,7 +79,7 @@ for n in img_ran:
     
 
 
-# In[7]:
+
 
 
 tlist=list()
@@ -96,7 +96,7 @@ test_ran=np.array(tlist)
 print(type(test_ran))
 
 
-# In[8]:
+
 
 
 for i in train_ran: #生成训练和测试集和标签
@@ -117,7 +117,7 @@ num_test_images=len(test_images)
 test_label=test_labels#画混淆矩阵需要
 
 
-# In[9]:
+
 
 
 # 可以用下面的代码显示数据中的某张图片
@@ -146,7 +146,7 @@ if show_multiple_images:
     plt.show()
 
 
-# In[10]:
+
 
 
 # 修改图片数据用于机器学习。图片颜色值是0到255之间，
@@ -176,7 +176,7 @@ print('Shape of train_images: ', train_images.shape)
 print('Shape of test_images:  ', test_images.shape)
 
 
-# In[11]:
+
 
 
 # -----------------------------
@@ -209,7 +209,6 @@ model.compile(optimizer=optimizer,
               metrics=["accuracy"])
 
 
-# In[12]:
 
 
 # -----------------------------
@@ -235,7 +234,6 @@ print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
 
-# In[13]:
 
 
 #训练参数显示 损失和准确率
@@ -255,7 +253,7 @@ plt.legend()
 plt.show()      
 
 
-# In[16]:
+
 
 
 # -----------------------------
@@ -309,8 +307,6 @@ plot_prediction(prediction_results[1], 2, test_images[1])
 plt.show()
 
 
-# In[15]:
-
 
 #模型评价 评价的几个指标 混淆矩阵 根据需要调用
 from sklearn.model_selection import train_test_split
@@ -334,7 +330,7 @@ print("[INFO] Confusion matrix : ")
 scikitplot.metrics.plot_confusion_matrix(test_label, predictions, figsize=(7,7))
 
 
-# In[ ]:
+
 
 
 #存在几个问题 自己使用随机数划分数据时 不能够做到在所有类别中很均匀的取样 使得对某些字母的识别特性 有点高
@@ -342,7 +338,7 @@ scikitplot.metrics.plot_confusion_matrix(test_label, predictions, figsize=(7,7))
 #评估指标 根据需要调整
 
 
-# In[ ]:
+
 
 
 
