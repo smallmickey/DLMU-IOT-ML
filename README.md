@@ -12,4 +12,5 @@ https://zhuanlan.zhihu.com/p/84568790
 3.Github
 本次课程后代码将开源至github
 Github链接:https://github.com/smallmickey/DLMU-IOT-ML.git
-大连海事大学2022机器学习作业代码 未经允许禁止转载 禁止使用该代码盈利
+大连海事大学2022机器学习作业5代码 
+未经允许禁止转载 禁止使用该代码盈利
