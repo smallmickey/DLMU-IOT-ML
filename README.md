@@ -10,7 +10,7 @@
 --使用jupyter notebook (tensorflow) 编写代码并运行  
 --相关代码也转为python文件  
 #3.Github  
---本次课程后代码将开源至github  
+--本次课程后代码将开源至Github  
 --Github链接:<https://github.com/smallmickey/DLMU-IOT-ML.git>  
 #大连海事大学2022机器学习作业5代码   
 #禁止使用该代码盈利
