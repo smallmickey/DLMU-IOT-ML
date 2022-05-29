@@ -10,8 +10,8 @@
 --使用jupyter notebook (tensorflow) 编写代码并运行  
 --相关代码也转为python文件  
 #3.可视化代码
---代码参考链接:<https://blog.csdn.net/Forrest97/article/details/105895087>
-<https://blog.csdn.net/qq_37781464/article/details/122946523>
+--代码参考链接:<https://blog.csdn.net/Forrest97/article/details/105895087>  
+<https://blog.csdn.net/qq_37781464/article/details/122946523>  
 #4.Github  
 --本次课程后代码将开源至Github  
 --Github链接:<https://github.com/smallmickey/DLMU-IOT-ML.git>  
