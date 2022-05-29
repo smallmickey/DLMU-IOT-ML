@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
+# In[51]:
 
 
 from tensorflow import keras
@@ -14,7 +14,7 @@ import math
 import random
 
 
-
+# In[52]:
 
 
 # -----------------------------
@@ -23,24 +23,24 @@ import random
 data=scio.loadmat('notMNIST_small.mat') #使用scio 包中的loadmat读取数据
 
 
-
+# In[53]:
 
 
 images=data['images']#读取后为字典 读取其中训练数据部分
 labels=data['labels']#读取数据集的标签
 
 
-
+# In[54]:
 
 
 test_split=0.2#训练集和测试集的划分 8/2划分
 num_images =images.shape[2]#数据集中图片数量 后续要用
-test_num=math.ceil(test_split*num_images)#切分出测试集数量 取整
+test_num=math.ceil(test_split*num_images)#切分出测试集数量 向上取整
 train_num=num_images-test_num#训练集图片数量 便于后续取出
 image=list()#初始化列表 后续存储读出来的图片
 
 
-
+# In[55]:
 
 
 for i in range(num_images): #数据集格式转化 转化为我们预处理要用的 num_images*28*28 按照自己的预处理规则进行预处理
@@ -48,7 +48,7 @@ for i in range(num_images): #数据集格式转化 转化为我们预处理要�
 images=np.array(image)#转化为numpy类型
 
 
-
+# In[56]:
 
 
 img_ran=random.sample(range(0,num_images), 5)#随机取5个图片并显示其标签
@@ -67,7 +67,7 @@ for n in img_ran:
     plt.grid(False)
     plt.xticks([])
     plt.yticks([])
-    plt.imshow(img28x28, cmap=plt.cm.binary)#转化图片并绘制
+    plt.imshow(img28x28, cmap=plt.cm.binary)#转化二值化图片并绘制
     # 画预测可能性数值
     plt.subplot(1, 3, 3)
     plt.grid(False)
@@ -79,7 +79,7 @@ for n in img_ran:
     
 
 
-
+# In[57]:
 
 
 tlist=list()
@@ -87,6 +87,7 @@ train_images=list()#生成几个存储列表 用于存储数据并后续训练
 train_labels=list()
 test_images=list()
 test_labels=list()
+
 temp=np.linspace(0,num_images-1,num_images)#生成等间隔数组
 train_ran=random.sample(range(0,num_images), train_num)#生成不重复的随机数组 数量为 train_num
 tlist=temp.tolist()#转为列表
@@ -96,7 +97,7 @@ test_ran=np.array(tlist)
 print(type(test_ran))
 
 
-
+# In[58]:
 
 
 for i in train_ran: #生成训练和测试集和标签
@@ -117,7 +118,7 @@ num_test_images=len(test_images)
 test_label=test_labels#画混淆矩阵需要
 
 
-
+# In[59]:
 
 
 # 可以用下面的代码显示数据中的某张图片
@@ -146,10 +147,10 @@ if show_multiple_images:
     plt.show()
 
 
+# In[60]:
 
 
-
-# 修改图片数据用于机器学习。图片颜色值是0到255之间，
+# 修改图片数据用于学习。图片颜色值是0到255之间，
 # 若用于神经网络模型，需要将这些值缩小至 0 到 1 之间，所以，将这些值除以 255。
 train_images = train_images / 255.0
 test_images = test_images / 255.0
@@ -159,11 +160,12 @@ test_images = test_images / 255.0
 train_images = np.expand_dims(train_images, -1)
 test_images = np.expand_dims(test_images, -1)
 
-# 处理分类标签数据：train_labels, test_labels
+# 处理分类标签数据：train_labels, train_labels
 # 有10个数字，所以相当于有10个类
 num_classes = 10
 # 将标签向量转换成二进制向量形式，用于深度学习算法的训练
 # 例如，数字5转换成了[0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+#one-hot编码
 train_labels = keras.utils.to_categorical(train_labels, num_classes)
 test_labels = keras.utils.to_categorical(test_labels, num_classes)
 
@@ -176,7 +178,7 @@ print('Shape of train_images: ', train_images.shape)
 print('Shape of test_images:  ', test_images.shape)
 
 
-
+# In[61]:
 
 
 # -----------------------------
@@ -189,7 +191,9 @@ model = keras.Sequential(
     [
         keras.Input(shape=(28, 28, 1)),
         layers.Conv2D(8, kernel_size=(3, 3), activation="relu"),
+        layers.Conv2D(8, kernel_size=(3, 3), activation="relu"),
         layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(16, kernel_size=(3, 3), activation="relu"),
         layers.Conv2D(16, kernel_size=(3, 3), activation="relu"),
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Flatten(),
@@ -197,7 +201,7 @@ model = keras.Sequential(
         layers.Dense(num_classes, activation="softmax"),
     ]
 )
-
+#全连接层 
 # 输出模型信息
 model.summary()
 
@@ -209,6 +213,7 @@ model.compile(optimizer=optimizer,
               metrics=["accuracy"])
 
 
+# In[62]:
 
 
 # -----------------------------
@@ -219,11 +224,12 @@ model.compile(optimizer=optimizer,
 
 h1=model.fit(train_images,
           train_labels,
-          batch_size=64,       # 批大小
-          epochs=50,            # 轮数
-          validation_split=0.2  # 校验数据比例
+          batch_size=32,       # 批大小
+          epochs=30,            # 轮数
+          validation_split=0.1 # 校验数据比例
           )
 
+model.save('model.h5')
 # 4.2 评估训练好的模型的准确率
 
 score = model.evaluate(test_images,  test_labels, verbose=2)
@@ -234,6 +240,7 @@ print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
 
+# In[87]:
 
 
 #训练参数显示 损失和准确率
@@ -253,7 +260,7 @@ plt.legend()
 plt.show()      
 
 
-
+# In[88]:
 
 
 # -----------------------------
@@ -307,6 +314,8 @@ plot_prediction(prediction_results[1], 2, test_images[1])
 plt.show()
 
 
+# In[89]:
+
 
 #模型评价 评价的几个指标 混淆矩阵 根据需要调用
 from sklearn.model_selection import train_test_split
@@ -330,7 +339,7 @@ print("[INFO] Confusion matrix : ")
 scikitplot.metrics.plot_confusion_matrix(test_label, predictions, figsize=(7,7))
 
 
-
+# In[ ]:
 
 
 #存在几个问题 自己使用随机数划分数据时 不能够做到在所有类别中很均匀的取样 使得对某些字母的识别特性 有点高
@@ -338,7 +347,52 @@ scikitplot.metrics.plot_confusion_matrix(test_label, predictions, figsize=(7,7))
 #评估指标 根据需要调整
 
 
+# In[92]:
 
+
+from tensorflow.keras import layers
+from tensorflow.keras import models
+from tensorflow.keras import optimizers
+
+model=models.load_model('model.h5')
+#提取前4层的输出
+layer_outputs=[layer.output for layer in model.layers[:5]]
+activation_model=models.Model(inputs=model.input,outputs=layer_outputs)
+
+plt.matshow(activations[1][0,:,:,0], cmap='viridis') #第1卷积层的第1特征层输出
+plt.matshow(activations[1][0,:,:,1], cmap='viridis') #第1卷积层的第0特征层输出
+
+#以预测模式运行模型 
+activations=activation_model.predict(test_images)
+print(activations[0].shape)
+
+for layer in model.layers[:5]:
+    layer_names.append(layer.name) #特征层的名字
+
+images_per_row=8
+
+for layer_name, layer_activation in zip (layer_names[0:5], activations[0:5]):
+    n_feature = layer_activation.shape[-1] # 每层输出的特征层数
+    size = layer_activation.shape[1]  #每层的特征大小
+    n_cols = n_feature//images_per_row #特征图平铺的行数
+    display_grid = np.zeros((size*n_cols, images_per_row*size)) # 每层图片大小
+    for col in range(n_cols): #行扫描
+        for row in  range (images_per_row): #平铺每行
+            channel_image = layer_activation[0,:,:,col*images_per_row+row] # 写入col*images_per_row+row特征层
+            channel_image -= channel_image.mean() #标准化处理，增加可视化效果
+            channel_image /= channel_image.std()
+            channel_image *=64
+            channel_image +=128
+            channel_image = np.clip(channel_image, 0, 255).astype('uint8')
+            display_grid[col*size:(col+1)*size, row*size:(row+1)*size] = channel_image #写入大图中
+    scale = 1./size #每组图缩放系数
+    plt.figure(figsize=(scale*display_grid.shape[1], scale*display_grid.shape[0]))
+    plt.title(layer_name)
+    plt.grid(False)
+    plt.imshow(display_grid, aspect='auto', cmap='viridis')
+
+
+# In[ ]:
 
 
 
