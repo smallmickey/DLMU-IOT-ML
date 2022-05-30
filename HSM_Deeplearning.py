@@ -353,7 +353,7 @@ scikitplot.metrics.plot_confusion_matrix(test_label, predictions, figsize=(7,7))
 from tensorflow.keras import layers
 from tensorflow.keras import models
 from tensorflow.keras import optimizers
-
+layer_names=list()
 model=models.load_model('model.h5')
 #提取前4层的输出
 layer_outputs=[layer.output for layer in model.layers[:5]]
